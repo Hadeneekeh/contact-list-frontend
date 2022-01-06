@@ -1,7 +1,5 @@
-import Button from "./Button";
+import Button from './Button';
 import Modal from './Modal';
+import TextInput from './Input';
 
-export {
-  Button,
-  Modal
-}
+export { Button, Modal, TextInput };
