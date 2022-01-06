@@ -1,4 +1,4 @@
-https://github.com/Hadeneekeh/contact-list-frontend/workflows/CI/CD/badge.svg
+![CI/CD](https://github.com/Hadeneekeh/contact-list-frontend/workflows/CI/CD/badge.svg)
 
 
 # Getting Started with Create React App
