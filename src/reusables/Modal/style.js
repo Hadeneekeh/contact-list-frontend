@@ -29,16 +29,16 @@ const useStyles = createUseStyles({
   title: {
     margin: 0,
     padding: 10,
-    color: '#2c3e50',
+    color: '#3d4255',
     fontWeight: 500,
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: 'left'
   },
 
   content: {
     padding: 10,
     fontSize: 14,
-    color: '#2c3e50',
+    color: '#3d4255',
     textAlign: 'center'
   },
 
