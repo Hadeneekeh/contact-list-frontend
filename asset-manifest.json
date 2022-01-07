@@ -1,10 +1,13 @@
 {
   "files": {
+    "main.css": "/contact-list-frontend/static/css/main.58692978.css",
     "main.js": "/contact-list-frontend/static/js/main.787a4fe5.js",
     "index.html": "/contact-list-frontend/index.html",
+    "main.58692978.css.map": "/contact-list-frontend/static/css/main.58692978.css.map",
     "main.787a4fe5.js.map": "/contact-list-frontend/static/js/main.787a4fe5.js.map"
   },
   "entrypoints": [
+    "static/css/main.58692978.css",
     "static/js/main.787a4fe5.js"
   ]
 }
