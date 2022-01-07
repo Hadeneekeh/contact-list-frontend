@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Modal, TextInput } from 'reusables';
+import { Button, Modal, Table, TextInput } from 'reusables';
 
 const App = () => {
   const [open, setOpen] = useState(false);
   const [fullname, setName] = useState('');
+  const [page, setPage] = useState(1);
 
   return (
     <div>
@@ -15,7 +16,7 @@ const App = () => {
         name="fullname"
         value={fullname}
         handleChange={(e) => setName(e.target.value)}
-        errorText=''
+        errorText=""
       />
       {open && (
         <Modal
@@ -27,6 +28,14 @@ const App = () => {
           Modal content
         </Modal>
       )}
+      <Table
+        columns={['Name', 'Email']}
+        dataSource={[['Kafilat Abdulwahab', 'kafi@mail.com']]}
+        page={page}
+        totalPages={3}
+        handleNext={() => setPage(page + 1)}
+        handlePrev={page !== 1 ? () => setPage(page - 1) : null}
+      />
     </div>
   );
 };
