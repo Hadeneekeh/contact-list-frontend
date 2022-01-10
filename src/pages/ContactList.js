@@ -55,7 +55,7 @@ const ContactList = () => {
           dataSource={tableData}
           loading={isFetching}
           tableType="list"
-          onRowClick={(rowId) => navigate(`contact/${rowId}`)}
+          onRowClick={(rowId) => navigate(`/contact-list-frontend/${rowId}`)}
         />
       )}
 

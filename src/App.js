@@ -7,8 +7,8 @@ import { Routes, Route } from 'react-router-dom';
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<ContactList />} />
-      <Route path="contact/:contactId" element={<ContactDetails />} />
+      <Route path="contact-list-frontend" element={<ContactList />} />
+      <Route path="contact-list-frontend/:contactId" element={<ContactDetails />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

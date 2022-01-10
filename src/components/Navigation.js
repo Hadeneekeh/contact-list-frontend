@@ -17,7 +17,7 @@ const NavigationButtons = ({ isReady, navigate, onEdit, onDelete }) => {
     <div className={classes.btnWrapper}>
       <Button
         label="Back"
-        handleClick={() => navigate('/')}
+        handleClick={() => navigate('/contact-list-frontend')}
         color="secondary"
         style={{
           marginRight: 10
