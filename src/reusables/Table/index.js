@@ -59,7 +59,7 @@ const Table = ({
   totalPages,
   handleNext,
   handlePrev,
-  loading,
+  loading = false,
   tableType = 'details',
   onRowClick = null
 }) => {
@@ -95,5 +95,5 @@ Table.propTypes = {
   totalPages: PropTypes.number.isRequired,
   handleNext: PropTypes.func,
   handlePrev: PropTypes.func,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool
 };

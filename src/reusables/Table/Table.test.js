@@ -10,6 +10,7 @@ describe('Table component', () => {
         dataSource={[['Kafilat Abdulwahab', 'kafi@mail.com']]}
         page={1}
         totalPages={3}
+        tableType='list'
       />
     );
 

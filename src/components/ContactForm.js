@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { Modal, TextInput } from 'reusables';
