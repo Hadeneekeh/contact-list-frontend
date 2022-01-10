@@ -1,12 +1,16 @@
+import ContactDetails from 'pages/ContactDetails';
+import ContactList from 'pages/ContactList';
+import NotFound from 'pages/NotFound';
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
-
   return (
-    <div>
-      <h1>Hello</h1>
-      
-    </div>
+    <Routes>
+      <Route path="/" element={<ContactList />} />
+      <Route path="contact/:contactId" element={<ContactDetails />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 };
 

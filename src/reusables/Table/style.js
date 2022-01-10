@@ -4,7 +4,7 @@ const useStyles = createUseStyles({
   wrapper: {
     border: '1px solid #ddd',
     borderRadius: 4,
-    width: '100%'
+    minWidth: 750
   },
 
   table: {
