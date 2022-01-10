@@ -10,7 +10,8 @@ const useStyles = createUseStyles({
   label: {
     fontSize: 16,
     fontWeight: 500,
-    marginBottom: 8
+    marginBottom: 8,
+    textAlign: 'left'
   },
 
   input: {
@@ -23,7 +24,8 @@ const useStyles = createUseStyles({
   error: {
     fontSize: 10,
     marginTop: 6,
-    color: 'red'
+    color: 'red',
+    textAlign: 'left'
   }
 });
 

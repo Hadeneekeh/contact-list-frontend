@@ -15,11 +15,21 @@ const TableHead = ({ columns }) => {
 };
 
 const TableBody = ({ tableData }) => {
+  const getRowId = (row) => {
+    const id = row[row.length - 1];
+    return id;
+  };
+
+  const getTableRow = (row) => {
+    const newRow = row.slice(0, 4);
+    return newRow;
+  };
+
   return (
     <tbody>
       {tableData.map((row, i) => (
-        <tr key={i}>
-          {row.map((data, index) => (
+        <tr key={getRowId(row)} onClick={() => console.log(getRowId(row))}>
+          {getTableRow(row).map((data, index) => (
             <td key={index}>{data}</td>
           ))}
         </tr>
@@ -28,34 +38,40 @@ const TableBody = ({ tableData }) => {
   );
 };
 
-const Pagination = ({ page, totalPages, handleNext, handlePrev, }) => {
+const Pagination = ({ page, totalPages, handleNext, handlePrev }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.pagination}>
-      <p>{`Page ${page} of ${totalPages} pages`}</p>
+      <p>{`Page ${page} of ${totalPages}`}</p>
       <div>
-        <Button label="Prev" handleClick={handlePrev} color="secondary" />
-        <Button label="Next" handleClick={handleNext} color="secondary" />
+        {handlePrev && <Button label="Prev" handleClick={handlePrev} color="secondary" />}
+        {handleNext && <Button label="Next" handleClick={handleNext} color="secondary" />}{' '}
       </div>
     </div>
   );
 };
 
-const Table = ({ columns, dataSource, page, totalPages, handleNext, handlePrev }) => {
-  const classes = useStyles()
+const Table = ({ columns, dataSource, page, totalPages, handleNext, handlePrev, loading }) => {
+  const classes = useStyles();
   return (
     <div className={classes.wrapper}>
-      <table className={classes.table}>
-        <TableHead columns={columns} />
-        <TableBody tableData={dataSource} />
-      </table>
-      <Pagination
-        page={page}
-        totalPages={totalPages}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-      />
+      {loading ? (
+        <p>Fetching records...</p>
+      ) : (
+        <>
+          <table className={classes.table}>
+            <TableHead columns={columns} />
+            <TableBody tableData={dataSource} />
+          </table>
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            handlePrev={handlePrev}
+            handleNext={handleNext}
+          />
+        </>
+      )}
     </div>
   );
 };
@@ -68,5 +84,6 @@ Table.propTypes = {
   page: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
   handleNext: PropTypes.func,
-  handlePrev: PropTypes.func
+  handlePrev: PropTypes.func,
+  loading: PropTypes.bool.isRequired
 };

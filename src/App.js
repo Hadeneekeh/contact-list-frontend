@@ -1,12 +1,12 @@
+import ContactList from 'pages/ContactList';
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
-
   return (
-    <div>
-      <h1>Hello</h1>
-      
-    </div>
+    <Routes>
+      <Route path="/" element={<ContactList />} />
+    </Routes>
   );
 };
 
