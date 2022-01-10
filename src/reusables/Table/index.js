@@ -14,22 +14,22 @@ const TableHead = ({ columns }) => {
   );
 };
 
-const TableBody = ({ tableData }) => {
+const TableBody = ({ tableData, type, onRowClick }) => {
   const getRowId = (row) => {
-    const id = row[row.length - 1];
+    const id = type === 'details' ? row[4] : row[row.length - 1];
     return id;
   };
 
-  const getTableRow = (row) => {
-    const newRow = row.slice(0, 4);
+  const getRowData = (row) => {
+    const newRow = type !== 'details' ? row.slice(0, 4) : row.slice(0, 5);
     return newRow;
   };
 
   return (
     <tbody>
       {tableData.map((row, i) => (
-        <tr key={getRowId(row)} onClick={() => console.log(getRowId(row))}>
-          {getTableRow(row).map((data, index) => (
+        <tr key={getRowId(row)} onClick={() => onRowClick(getRowId(row))}>
+          {getRowData(row).map((data, index) => (
             <td key={index}>{data}</td>
           ))}
         </tr>
@@ -52,7 +52,17 @@ const Pagination = ({ page, totalPages, handleNext, handlePrev }) => {
   );
 };
 
-const Table = ({ columns, dataSource, page, totalPages, handleNext, handlePrev, loading }) => {
+const Table = ({
+  columns,
+  dataSource,
+  page,
+  totalPages,
+  handleNext,
+  handlePrev,
+  loading,
+  tableType = 'details',
+  onRowClick = null
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.wrapper}>
@@ -62,7 +72,7 @@ const Table = ({ columns, dataSource, page, totalPages, handleNext, handlePrev, 
         <>
           <table className={classes.table}>
             <TableHead columns={columns} />
-            <TableBody tableData={dataSource} />
+            <TableBody tableData={dataSource} type={tableType} onRowClick={onRowClick} />
           </table>
           <Pagination
             page={page}

@@ -3,7 +3,9 @@ import { useQuery } from 'react-query';
 import { Button, Table } from 'reusables';
 import { contactService } from 'services/contactService';
 import { createUseStyles } from 'react-jss';
-import NewContact from 'components/NewContact';
+import ContactForm from 'components/ContactForm';
+import ErrorNotification from 'components/ErrorNotification';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = createUseStyles({
   btn: {
@@ -11,13 +13,6 @@ const useStyles = createUseStyles({
     justifyContent: 'flex-end',
     marginBottom: 20
   },
-
-  error: {
-    backgroundColor: 'red',
-    color: 'white',
-    padding: 5,
-    marginBottom: 5
-  }
 });
 
 const ContactList = () => {
@@ -25,7 +20,9 @@ const ContactList = () => {
   const [tableData, setTableData] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const { isFetching, isError, refetch } = useQuery(
+  const navigate = useNavigate();
+
+  const { isFetching, isError, refetch, isSuccess } = useQuery(
     'get all contact',
     contactService.getAllContacts,
     {
@@ -42,30 +39,33 @@ const ContactList = () => {
   return (
     <div>
       <h1>Contact List</h1>
-      {isError && (
-        <div className={classes.error}>
-          <p>Unable to fetch records.</p>
-        </div>
-      )}
+      <ErrorNotification isError={isError} />
       <div className={classes.btn}>
         <Button label="Create" handleClick={() => setOpen(true)} />
       </div>
-      <Table
-        page={1}
-        totalPages={1}
-        handleNext={null}
-        handlePrev={null}
-        columns={['First Name', 'Last Name', 'Email', 'Phone']}
-        dataSource={tableData}
-        loading={isFetching}
-      />
+      {isSuccess && tableData.length === 0 ? (
+        <p>No record yet, create one.</p>
+      ) : (
+        <Table
+          page={1}
+          totalPages={1}
+          handleNext={null}
+          handlePrev={null}
+          columns={['First Name', 'Last Name', 'Email', 'Phone']}
+          dataSource={tableData}
+          loading={isFetching}
+          tableType="list"
+          onRowClick={(rowId) => navigate(`contact/${rowId}`)}
+        />
+      )}
 
-      <NewContact
+      <ContactForm
         open={open}
         handleClose={() => {
           setOpen(false);
           refetch();
         }}
+        type="create"
       />
     </div>
   );

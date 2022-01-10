@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import useStyles from './style';
 
-const Button = ({ label, color, width, handleClick }) => {
+const Button = ({ label, color, width, handleClick, ...rest }) => {
   const classes = useStyles({ color, width });
   return (
-    <button className={classes.btn} onClick={handleClick}>
+    <button className={classes.btn} onClick={handleClick} {...rest}>
       {label}
     </button>
   );

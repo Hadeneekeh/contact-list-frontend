@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Modal, TextInput } from 'reusables';
 import { contactService } from 'services/contactService';
 import validate from 'utils/customValidation';
 import { createUseStyles } from 'react-jss';
+import PropTypes from 'prop-types';
+import ErrorNotification from './ErrorNotification';
 
 const useStyles = createUseStyles({
   error: {
@@ -14,11 +16,35 @@ const useStyles = createUseStyles({
   }
 });
 
-const NewContact = ({ open, handleClose }) => {
+const ContactForm = ({ open, handleClose, type, contact }) => {
   const classes = useStyles();
-  const [formData, setFormData] = useState({ email: '', phone: '', firstName: '', lastName: '' });
+
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    phone: '',
+    firstName: '',
+    lastName: ''
+  });
+
+  const resetForm = () => {
+    handleClose();
+    setFormData({
+      email: '',
+      phone: '',
+      firstName: '',
+      lastName: ''
+    });
+  };
+
+  const { isError: contactError } = useQuery(['single', contact], contactService.getContact, {
+    enabled: !!contact,
+    onSuccess: ({ data }) => {
+      const { firstName, lastName, phone, email } = data;
+      setFormData({ firstName, lastName, phone, email });
+    }
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,30 +56,33 @@ const NewContact = ({ open, handleClose }) => {
     setSubmitting(true);
   };
 
-  const { mutate, isError, isLoading, error } = useMutation(
-    (data) => contactService.addContact(data),
-    {
-      onSuccess: () => handleClose(),
-      onError: (err) => console.log(err)
-    }
-  );
+  const { addContact, editContact } = contactService;
+
+  const requestUrl = (data) =>
+    type === 'create' ? addContact(data) : editContact({ data, id: contact });
+
+  const { mutate, isError, isLoading, error } = useMutation((data) => requestUrl(data), {
+    onSuccess: () => resetForm(),
+    onError: (err) => console.log(err)
+  });
 
   useEffect(() => {
     if (Object.keys(errors).length === 0 && submitting) {
       mutate(formData);
     }
-  }, [errors, formData, submitting, mutate]);
+  }, [errors, submitting, mutate]);
 
   return (
     <>
       {open && (
         <Modal
-          title="New Contact"
-          onClose={handleClose}
-          onSubmit={() => handleSubmit('click')}
-          submitTxt="Create"
+          title={type === 'create' ? 'New Contact' : 'Edit Contact'}
+          onClose={resetForm}
+          onSubmit={handleSubmit}
+          submitTxt={type === 'create' ? 'Create' : 'Update'}
           loading={isLoading}
         >
+          <ErrorNotification isError={contactError} />
           {isError && (
             <div className={classes.error}>
               <p>{error.message}</p>
@@ -95,4 +124,11 @@ const NewContact = ({ open, handleClose }) => {
   );
 };
 
-export default NewContact;
+export default ContactForm;
+
+ContactForm.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  type: PropTypes.string,
+  contact: PropTypes.string
+};
